@@ -5,101 +5,164 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OS Threats</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
-  :root { --bg:#050a14; --border:#1a3a6b; --accent1:#ff4444; --text:#c8daf0; --dim:#4a6a9a; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117; --surface: #161b27; --surface2: #1c2333;
+    --border: #2a3347; --border-hover: #3d4f6e;
+    --text: #e2e8f0; --text-muted: #8892a4; --text-dim: #5a6478;
+    --blue: #3b82f6; --green: #10b981; --red: #ef4444;
+    --amber: #f59e0b; --purple: #8b5cf6; --teal: #14b8a6; --orange: #f97316;
+  }
+
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); font-family:'Exo 2',sans-serif; color:var(--text); min-height:100vh; padding:30px 20px; }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(160,0,0,0.1) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(200,0,0,0.03) 39px, rgba(200,0,0,0.03) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(200,0,0,0.03) 39px, rgba(200,0,0,0.03) 40px);
-    pointer-events:none; z-index:0;
-  }
-  .wrapper { position:relative; z-index:1; max-width:960px; margin:0 auto; }
-  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
-  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
+  body { background:var(--bg); font-family:'Inter',sans-serif; color:var(--text); min-height:100vh; padding:40px 24px; font-size:14px; line-height:1.6; }
+  .wrapper { max-width:960px; margin:0 auto; }
+
+  .page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:36px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+  .breadcrumb { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.05em; margin-bottom:8px; }
+  .breadcrumb span { color:var(--red); }
+  .page-title { font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+  .page-meta { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
+  .header-pill { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 12px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:var(--red); border-radius:4px; white-space:nowrap; margin-top:4px; }
+
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .full { grid-column:1/-1; }
+
   .threat {
-    border:1px solid rgba(255,68,68,0.3); padding:18px;
-    background:rgba(255,68,68,0.03); position:relative; transition:all 0.3s;
+    background:var(--surface); border:1px solid var(--border);
+    border-top:2px solid var(--c, var(--red));
+    border-radius:8px; padding:20px;
+    transition:border-color 0.2s, box-shadow 0.2s;
   }
-  .threat:hover { border-color:var(--c,#ff4444); box-shadow:0 0 20px rgba(255,68,68,0.1); }
-  .threat::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,#ff4444); }
-  .threat-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-  .threat-icon { font-size:1.5rem; filter:drop-shadow(0 0 6px var(--c,#ff4444)); }
-  .threat-name { font-size:0.9rem; font-weight:800; color:var(--c,#ff4444); letter-spacing:0.08em; text-transform:uppercase; }
-  .severity { margin-left:auto; font-family:'Share Tech Mono',monospace; font-size:0.58rem; padding:2px 8px; border:1px solid var(--c,#ff4444); color:var(--c,#ff4444); opacity:0.8; }
-  .threat-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; margin-bottom:10px; }
-  .defence-label { font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:5px; }
-  .defence-label::before { content:'🛡 DEFENCES: '; }
+  .threat:hover { border-color:var(--c, var(--red)); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+
+  .threat-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .threat-icon {
+    width:36px; height:36px; border-radius:8px; flex-shrink:0;
+    background:rgba(255,255,255,0.04); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:1rem;
+  }
+  .threat-title-group { flex:1; }
+  .threat-name { font-size:0.85rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; margin-bottom:3px; }
+  .severity {
+    font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+    padding:2px 8px; border-radius:3px; display:inline-block;
+    background:var(--sev-bg); color:var(--sev-color); border:1px solid var(--sev-border);
+  }
+
+  .threat-desc { font-size:0.77rem; color:var(--text-muted); line-height:1.65; margin-bottom:12px; }
+
+  .defence-row { margin-bottom:8px; }
+  .defence-label { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--green); margin-bottom:5px; display:flex; align-items:center; gap:5px; }
   .tags { display:flex; flex-wrap:wrap; gap:4px; }
-  .tag { font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 7px; background:rgba(61,255,176,0.05); border:1px solid rgba(61,255,176,0.2); color:#3dffb0; }
-  .example { margin-top:8px; font-size:0.7rem; color:#ff9500; font-family:'Share Tech Mono',monospace; }
-  .example::before { content:'⚠ REAL WORLD: '; }
+  .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.18); color:var(--green); }
+
+  .real-world {
+    margin-top:10px; font-size:0.72rem;
+    font-family:'JetBrains Mono',monospace;
+    padding:5px 10px; border-radius:4px;
+    background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.2);
+    color:var(--amber); display:flex; align-items:center; gap:6px;
+  }
+
+  /* Severity colour variants */
+  .sev-critical { --sev-bg:rgba(239,68,68,0.1); --sev-color:#ef4444; --sev-border:rgba(239,68,68,0.25); }
+  .sev-high     { --sev-bg:rgba(249,115,22,0.1); --sev-color:#f97316; --sev-border:rgba(249,115,22,0.25); }
+  .sev-medium   { --sev-bg:rgba(245,158,11,0.1); --sev-color:#f59e0b; --sev-border:rgba(245,158,11,0.25); }
+
+  @media(max-width:640px) { .grid { grid-template-columns:1fr; } .full { grid-column:1; } }
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <h1>// OS Threat Landscape</h1>
-  <p class="subtitle">KNOWN THREATS &amp; ATTACK VECTORS</p>
+
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">Operating Systems / <span>Threats</span></div>
+      <div class="page-title">OS Threat Landscape</div>
+      <div class="page-meta">Known threats, attack vectors, and defences</div>
+    </div>
+    <div class="header-pill">5 THREATS</div>
+  </div>
+
   <div class="grid">
 
-    <div class="threat" style="--c:#ff4444">
+    <div class="threat" style="--c:#ef4444">
       <div class="threat-header">
         <div class="threat-icon">💀</div>
-        <div class="threat-name">Kernel Vulnerabilities</div>
-        <div class="severity">CRITICAL</div>
+        <div class="threat-title-group">
+          <div class="threat-name">Kernel Vulnerabilities</div>
+          <span class="severity sev-critical">CRITICAL</span>
+        </div>
       </div>
-      <div class="threat-desc">Privilege escalation through kernel bugs. An attacker exploiting Ring 0 code gains full control of the system — bypassing all user-space security controls. One of the most critical threat categories.</div>
-      <div class="defence-label"></div>
-      <div class="tags"><span class="tag">hardened kernels</span><span class="tag">control-flow integrity</span><span class="tag">constant patching</span></div>
+      <div class="threat-desc">Privilege escalation through kernel bugs. An attacker exploiting Ring 0 code gains full system control — bypassing all user-space security controls entirely.</div>
+      <div class="defence-row">
+        <div class="defence-label">🛡 Defences</div>
+        <div class="tags"><span class="tag">hardened kernels</span><span class="tag">control-flow integrity</span><span class="tag">constant patching</span></div>
+      </div>
     </div>
 
-    <div class="threat" style="--c:#ff6b35">
+    <div class="threat" style="--c:#f97316">
       <div class="threat-header">
         <div class="threat-icon">🦠</div>
-        <div class="threat-name">Malware &amp; Ransomware</div>
-        <div class="severity">HIGH</div>
+        <div class="threat-title-group">
+          <div class="threat-name">Malware & Ransomware</div>
+          <span class="severity sev-high">HIGH</span>
+        </div>
       </div>
       <div class="threat-desc">Attackers leverage OS mechanisms to install persistent malware, encrypt data for ransom, or exfiltrate sensitive information. Often enters via phishing, then escalates privileges to persist.</div>
-      <div class="defence-label"></div>
-      <div class="tags"><span class="tag">app sandboxing</span><span class="tag">integrity checking</span><span class="tag">outbound controls</span><span class="tag">least privilege</span></div>
+      <div class="defence-row">
+        <div class="defence-label">🛡 Defences</div>
+        <div class="tags"><span class="tag">app sandboxing</span><span class="tag">integrity checking</span><span class="tag">outbound controls</span><span class="tag">least privilege</span></div>
+      </div>
     </div>
 
-    <div class="threat" style="--c:#a78bff">
+    <div class="threat" style="--c:#8b5cf6">
       <div class="threat-header">
         <div class="threat-icon">👁️</div>
-        <div class="threat-name">Side-Channel Attacks</div>
-        <div class="severity">HIGH</div>
+        <div class="threat-title-group">
+          <div class="threat-name">Side-Channel Attacks</div>
+          <span class="severity sev-high">HIGH</span>
+        </div>
       </div>
-      <div class="threat-desc">Exploits CPU microarchitectural features — timing, cache behaviour, speculative execution — to leak secrets across OS isolation boundaries. Demonstrated at hardware level, making them extremely difficult to patch.</div>
-      <div class="defence-label"></div>
-      <div class="tags"><span class="tag">KPTI</span><span class="tag">microcode patches</span><span class="tag">compiler mitigations</span></div>
-      <div class="example">Spectre &amp; Meltdown (2018)</div>
+      <div class="threat-desc">Exploits CPU microarchitectural features — timing, cache behaviour, speculative execution — to leak secrets across OS isolation boundaries. Hardware-level nature makes them very difficult to patch.</div>
+      <div class="defence-row">
+        <div class="defence-label">🛡 Defences</div>
+        <div class="tags"><span class="tag">KPTI</span><span class="tag">microcode patches</span><span class="tag">compiler mitigations</span></div>
+      </div>
+      <div class="real-world">⚠ Real world: Spectre & Meltdown (2018)</div>
     </div>
 
-    <div class="threat" style="--c:#ffdd57">
+    <div class="threat" style="--c:#f59e0b">
       <div class="threat-header">
         <div class="threat-icon">📦</div>
-        <div class="threat-name">Supply Chain Risks</div>
-        <div class="severity">HIGH</div>
+        <div class="threat-title-group">
+          <div class="threat-name">Supply Chain Risks</div>
+          <span class="severity sev-high">HIGH</span>
+        </div>
       </div>
-      <div class="threat-desc">The OS update mechanism itself may be compromised. A malicious update delivered through official channels could silently backdoor thousands of systems. Extremely hard to detect if the attacker has signing keys.</div>
-      <div class="defence-label"></div>
-      <div class="tags"><span class="tag">TLS delivery</span><span class="tag">code signing</span><span class="tag">reproducible builds</span><span class="tag">rollback protection</span></div>
-      <div class="example">SolarWinds supply chain attack</div>
+      <div class="threat-desc">The OS update mechanism itself may be compromised. A malicious update via official channels could silently backdoor thousands of systems. Extremely hard to detect if the attacker holds signing keys.</div>
+      <div class="defence-row">
+        <div class="defence-label">🛡 Defences</div>
+        <div class="tags"><span class="tag">TLS delivery</span><span class="tag">code signing</span><span class="tag">reproducible builds</span><span class="tag">rollback protection</span></div>
+      </div>
+      <div class="real-world">⚠ Real world: SolarWinds supply chain attack</div>
     </div>
 
-    <div class="threat" style="--c:#7a9cc0" style="grid-column:1/-1">
+    <div class="threat full" style="--c:#3b82f6">
       <div class="threat-header">
         <div class="threat-icon">⚙️</div>
-        <div class="threat-name">Misconfiguration</div>
-        <div class="severity">MEDIUM</div>
+        <div class="threat-title-group">
+          <div class="threat-name">Misconfiguration</div>
+          <span class="severity sev-medium">MEDIUM</span>
+        </div>
       </div>
       <div class="threat-desc">Default-insecure settings, weak ACLs, or unnecessarily exposed services create entirely preventable attack vectors. Most misconfigurations require no exploit — just access to poorly locked doors. The most common real-world entry point.</div>
-      <div class="defence-label"></div>
-      <div class="tags"><span class="tag">hardening guides</span><span class="tag">secure by default</span><span class="tag">CIS benchmarks</span><span class="tag">configuration audits</span></div>
+      <div class="defence-row">
+        <div class="defence-label">🛡 Defences</div>
+        <div class="tags"><span class="tag">hardening guides</span><span class="tag">secure by default</span><span class="tag">CIS benchmarks</span><span class="tag">configuration audits</span></div>
+      </div>
     </div>
 
   </div>

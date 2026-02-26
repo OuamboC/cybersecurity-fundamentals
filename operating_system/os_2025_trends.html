@@ -5,118 +5,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OS Security 2025 Trends</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
-  :root { --bg:#050a14; --border:#1a3a6b; --accent1:#00d4ff; --text:#c8daf0; --dim:#4a6a9a; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); font-family:'Exo 2',sans-serif; color:var(--text); min-height:100vh; padding:30px 20px; }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,80,160,0.15) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px);
-    pointer-events:none; z-index:0;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #161b27;
+    --surface2: #1c2333;
+    --border: #2a3347;
+    --border-hover: #3d4f6e;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --text-dim: #5a6478;
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.12);
+    --green: #10b981;
+    --green-dim: rgba(16,185,129,0.1);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,0.1);
+    --amber: #f59e0b;
+    --purple: #8b5cf6;
+    --teal: #14b8a6;
   }
-  .wrapper { position:relative; z-index:1; max-width:960px; margin:0 auto; }
-  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
-  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
-  .year-badge { text-align:center; margin-bottom:28px; }
-  .year-badge span { font-family:'Share Tech Mono',monospace; font-size:0.7rem; padding:4px 16px; border:1px solid #00d4ff; color:#00d4ff; letter-spacing:0.3em; background:rgba(0,212,255,0.05); }
 
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .trend { border:1px solid var(--border); padding:20px; background:rgba(255,255,255,0.02); position:relative; transition:all 0.3s; }
-  .trend:hover { border-color:var(--c); box-shadow:0 0 20px rgba(0,0,0,0.3); }
-  .trend::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,#00d4ff); }
-  .trend-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-  .trend-icon { font-size:1.6rem; filter:drop-shadow(0 0 8px var(--c)); }
-  .trend-title { font-size:0.9rem; font-weight:800; color:var(--c,#00d4ff); letter-spacing:0.08em; text-transform:uppercase; }
-  .trend-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; margin-bottom:12px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
-  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
-  .mini-card { padding:8px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); }
-  .mini-label { font-family:'Share Tech Mono',monospace; font-size:0.6rem; margin-bottom:4px; }
-  .mini-label.attack { color:#ff4444; }
-  .mini-label.defence { color:#3dffb0; }
-  .mini-label.attack::before { content:'⚔ ATTACK: '; }
-  .mini-label.defence::before { content:'🛡 DEFENCE: '; }
-  .mini-text { font-size:0.72rem; color:#6a8aaa; line-height:1.5; }
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 24px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
 
-  .tag { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 7px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#5a8aaa; margin:2px 2px 0 0; }
-  .status { font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 8px; border:1px solid var(--c); color:var(--c); opacity:0.7; margin-left:auto; }
+  .wrapper { max-width: 960px; margin: 0 auto; }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .breadcrumb span { color: var(--blue); }
+  .page-title { font-size: 1.4rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+  .page-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+  .year-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    background: var(--blue-dim);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: var(--blue);
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .card:hover { border-color: var(--border-hover); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c, var(--blue)); opacity:0.8; }
+
+  .card-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .card-icon {
+    width:36px; height:36px; border-radius:8px;
+    background:var(--icon-bg, var(--blue-dim));
+    border:1px solid var(--icon-border, rgba(59,130,246,0.2));
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; flex-shrink:0;
+  }
+  .card-title-group { flex:1; min-width:0; }
+  .card-title { font-size:0.85rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; margin-bottom:3px; }
+  .status-badge {
+    font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+    padding:2px 8px; border-radius:3px; display:inline-block;
+    background:var(--badge-bg, var(--blue-dim));
+    color:var(--badge-color, var(--blue));
+    border:1px solid var(--badge-border, rgba(59,130,246,0.25));
+  }
+
+  .card-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.65; margin-bottom:14px; }
+
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+  .split-item { padding:10px 12px; border-radius:6px; border:1px solid; }
+  .split-item.attack { background:var(--red-dim); border-color:rgba(239,68,68,0.2); }
+  .split-item.defence { background:var(--green-dim); border-color:rgba(16,185,129,0.2); }
+  .split-label { font-family:'JetBrains Mono',monospace; font-size:0.6rem; font-weight:500; letter-spacing:0.05em; margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+  .split-label.attack { color:var(--red); }
+  .split-label.defence { color:var(--green); }
+  .split-text { font-size:0.72rem; color:var(--text-muted); line-height:1.5; }
+
+  .risk-row { display:flex; align-items:flex-start; gap:8px; padding:7px 10px; border-radius:5px; margin-bottom:6px; font-size:0.73rem; }
+  .risk-row.attack { background:var(--red-dim); border:1px solid rgba(239,68,68,0.15); color:var(--text-muted); }
+  .risk-row.defence { background:var(--green-dim); border:1px solid rgba(16,185,129,0.15); color:var(--text-muted); }
+  .risk-icon { flex-shrink:0; font-size:0.7rem; margin-top:1px; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+  .tag { font-family:'JetBrains Mono',monospace; font-size:0.62rem; padding:2px 8px; border-radius:3px; background:var(--surface2); border:1px solid var(--border); color:var(--text-dim); }
 
   .conclusion {
-    margin-top:20px; padding:18px 20px;
-    border:1px solid rgba(0,212,255,0.2);
-    background:rgba(0,212,255,0.03);
-    border-left:4px solid #00d4ff;
-    font-size:0.8rem; color:#7a9cc0; line-height:1.7;
+    background:var(--surface); border:1px solid var(--border);
+    border-left:3px solid var(--blue); border-radius:8px;
+    padding:18px 20px; font-size:0.8rem; color:var(--text-muted); line-height:1.7;
   }
-  .conclusion strong { color:#00d4ff; }
+  .conclusion strong { color:var(--text); font-weight:600; }
+
+  @media (max-width:640px) {
+    .grid { grid-template-columns:1fr; }
+    .split { grid-template-columns:1fr; }
+    .page-header { flex-direction:column; gap:12px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <h1>// OS Security: Emerging Trends</h1>
-  <div class="year-badge"><span>2025 &amp; BEYOND</span></div>
+
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">Operating Systems / <span>Emerging Trends</span></div>
+      <div class="page-title">OS Security: 2025 & Beyond</div>
+      <div class="page-meta">Four key trends reshaping operating system security</div>
+    </div>
+    <div class="year-pill">2025 · ACTIVE</div>
+  </div>
 
   <div class="grid">
 
-    <div class="trend" style="--c:#00d4ff">
-      <div class="trend-header">
-        <div class="trend-icon">🤖</div>
-        <div class="trend-title">AI-Driven Attacks &amp; Defences</div>
-        <div class="status">ACTIVE NOW</div>
-      </div>
-      <div class="trend-desc">AI is being weaponised on both sides of the battlefield. Attackers automate exploit generation and targeted phishing at scale; defenders use AI for anomaly detection and threat hunting.</div>
-      <div class="two-col">
-        <div class="mini-card">
-          <div class="mini-label attack"></div>
-          <div class="mini-text">AI generates exploits, automates phishing campaigns, adapts malware to evade signatures</div>
+    <div class="card" style="--c:#3b82f6; --icon-bg:rgba(59,130,246,0.1); --icon-border:rgba(59,130,246,0.2); --badge-bg:rgba(59,130,246,0.1); --badge-color:#3b82f6; --badge-border:rgba(59,130,246,0.25);">
+      <div class="card-header">
+        <div class="card-icon">🤖</div>
+        <div class="card-title-group">
+          <div class="card-title">AI-Driven Attacks & Defences</div>
+          <span class="status-badge">ACTIVE NOW</span>
         </div>
-        <div class="mini-card">
-          <div class="mini-label defence"></div>
-          <div class="mini-text">OS telemetry feeds AI anomaly detection — rich logging is now a security requirement</div>
+      </div>
+      <div class="card-desc">AI is being weaponised on both sides. Attackers automate exploit generation and targeted phishing at scale; defenders use AI for anomaly detection and threat hunting.</div>
+      <div class="split">
+        <div class="split-item attack">
+          <div class="split-label attack">⚔ ATTACK</div>
+          <div class="split-text">AI generates exploits, automates phishing, adapts malware to evade signatures</div>
+        </div>
+        <div class="split-item defence">
+          <div class="split-label defence">🛡 DEFENCE</div>
+          <div class="split-text">OS telemetry feeds AI anomaly detection — rich logging is now a security requirement</div>
         </div>
       </div>
     </div>
 
-    <div class="trend" style="--c:#a78bff">
-      <div class="trend-header">
-        <div class="trend-icon">⚛️</div>
-        <div class="trend-title">Quantum Threats</div>
-        <div class="status">HORIZON RISK</div>
+    <div class="card" style="--c:#8b5cf6; --icon-bg:rgba(139,92,246,0.1); --icon-border:rgba(139,92,246,0.2);">
+      <div class="card-header">
+        <div class="card-icon">⚛️</div>
+        <div class="card-title-group">
+          <div class="card-title">Quantum Threats</div>
+          <span class="status-badge" style="background:rgba(139,92,246,0.1); color:#8b5cf6; border-color:rgba(139,92,246,0.25);">HORIZON RISK</span>
+        </div>
       </div>
-      <div class="trend-desc">Quantum computers will eventually break today's cryptographic schemes (RSA, ECC). Future OS must be cryptographically agile — able to swap algorithms without full redesign.</div>
-      <div style="margin-top:10px">
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ AT RISK: RSA · ECC · current key exchange</div>
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: post-quantum algorithms for secure boot, kernel signing, encrypted filesystems</div>
-        <span class="tag">post-quantum crypto</span><span class="tag">crypto agility</span><span class="tag">NIST PQC standards</span>
+      <div class="card-desc">Quantum computers will eventually break today's cryptographic schemes. Future OS must be cryptographically agile — able to swap algorithms without full redesign.</div>
+      <div class="risk-row attack">
+        <span class="risk-icon">⚔</span>
+        <span><strong style="color:#ef4444">At risk:</strong> RSA · ECC · current key exchange algorithms</span>
+      </div>
+      <div class="risk-row defence">
+        <span class="risk-icon">🛡</span>
+        <span><strong style="color:#10b981">Solution:</strong> Post-quantum algorithms for secure boot, kernel signing, encrypted filesystems</span>
+      </div>
+      <div class="tags">
+        <span class="tag">post-quantum crypto</span><span class="tag">crypto agility</span><span class="tag">NIST PQC</span>
       </div>
     </div>
 
-    <div class="trend" style="--c:#7fff7f">
-      <div class="trend-header">
-        <div class="trend-icon">☁️</div>
-        <div class="trend-title">Cloud, Edge &amp; IoT Integration</div>
-        <div class="status">ACTIVE NOW</div>
+    <div class="card" style="--c:#14b8a6; --icon-bg:rgba(20,184,166,0.1); --icon-border:rgba(20,184,166,0.2);">
+      <div class="card-header">
+        <div class="card-icon">☁️</div>
+        <div class="card-title-group">
+          <div class="card-title">Cloud, Edge & IoT Integration</div>
+          <span class="status-badge" style="background:rgba(20,184,166,0.1); color:#14b8a6; border-color:rgba(20,184,166,0.25);">ACTIVE NOW</span>
+        </div>
       </div>
-      <div class="trend-desc">OS now runs in VMs, containers, IoT devices, and edge nodes simultaneously. The perimeter has dissolved — traditional security models no longer apply. Misconfiguration remains the dominant risk.</div>
-      <div style="margin-top:10px">
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ RISK: misconfiguration across distributed environments</div>
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: zero-trust models, remote attestation, distributed patch management</div>
+      <div class="card-desc">OS now runs in VMs, containers, IoT devices, and edge nodes simultaneously. The perimeter has dissolved — traditional security models no longer apply.</div>
+      <div class="risk-row attack">
+        <span class="risk-icon">⚔</span>
+        <span><strong style="color:#ef4444">Risk:</strong> Misconfiguration across distributed, heterogeneous environments</span>
+      </div>
+      <div class="risk-row defence">
+        <span class="risk-icon">🛡</span>
+        <span><strong style="color:#10b981">Solution:</strong> Zero-trust models, remote attestation, distributed patch management</span>
+      </div>
+      <div class="tags">
         <span class="tag">zero-trust</span><span class="tag">remote attestation</span><span class="tag">container security</span>
       </div>
     </div>
 
-    <div class="trend" style="--c:#ff9500">
-      <div class="trend-header">
-        <div class="trend-icon">🪪</div>
-        <div class="trend-title">Identity &amp; Machine Trust</div>
-        <div class="status">EVOLVING</div>
+    <div class="card" style="--c:#f59e0b; --icon-bg:rgba(245,158,11,0.1); --icon-border:rgba(245,158,11,0.2);">
+      <div class="card-header">
+        <div class="card-icon">🪪</div>
+        <div class="card-title-group">
+          <div class="card-title">Identity & Machine Trust</div>
+          <span class="status-badge" style="background:rgba(245,158,11,0.1); color:#f59e0b; border-color:rgba(245,158,11,0.25);">EVOLVING</span>
+        </div>
       </div>
-      <div class="trend-desc">The boundary between human and machine identity is blurring. AI agents, service accounts, and automated pipelines act on behalf of humans — the OS must authenticate and authorise them with the same rigour.</div>
-      <div style="margin-top:10px">
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ RISK: machine accounts with excessive privilege</div>
-        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: ephemeral credentials, fine-grained role enforcement, continuous authentication</div>
+      <div class="card-desc">The boundary between human and machine identity is blurring. AI agents and automated pipelines act on behalf of humans — the OS must authenticate them with equal rigour.</div>
+      <div class="risk-row attack">
+        <span class="risk-icon">⚔</span>
+        <span><strong style="color:#ef4444">Risk:</strong> Machine accounts operating with excessive, unchecked privileges</span>
+      </div>
+      <div class="risk-row defence">
+        <span class="risk-icon">🛡</span>
+        <span><strong style="color:#10b981">Solution:</strong> Ephemeral credentials, fine-grained role enforcement, continuous authentication</span>
+      </div>
+      <div class="tags">
         <span class="tag">ephemeral credentials</span><span class="tag">RBAC</span><span class="tag">continuous auth</span>
       </div>
     </div>
@@ -124,8 +241,9 @@
   </div>
 
   <div class="conclusion">
-    <strong>Conclusion:</strong> Operating systems are the foundation upon which secure computing rests. As AI, quantum computing, and global cyber-crime reshape the threat landscape, the OS must evolve from a passive platform to an <strong>active, resilient cornerstone of cybersecurity</strong> — enforcing trust at every layer from firmware to application.
+    <strong>Conclusion —</strong> Operating systems are the foundation upon which secure computing rests. As AI, quantum computing, and global cyber-crime reshape the threat landscape, the OS must evolve from a passive platform to an <strong>active, resilient cornerstone of cybersecurity</strong> — enforcing trust at every layer from firmware to application.
   </div>
+
 </div>
 </body>
 </html>

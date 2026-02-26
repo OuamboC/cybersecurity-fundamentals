@@ -5,92 +5,242 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OS Core Concepts</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
-  :root { --bg:#050a14; --border:#1a3a6b; --accent1:#00d4ff; --text:#c8daf0; --dim:#4a6a9a; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); font-family:'Exo 2',sans-serif; color:var(--text); min-height:100vh; padding:30px 20px; }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,80,160,0.15) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px);
-    pointer-events:none; z-index:0;
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #161b27;
+    --surface2: #1c2333;
+    --border: #2a3347;
+    --border-hover: #3d4f6e;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --text-dim: #5a6478;
+    --blue: #3b82f6;
+    --green: #10b981;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --purple: #8b5cf6;
+    --teal: #14b8a6;
+    --orange: #f97316;
+    --pink: #ec4899;
   }
-  .wrapper { position:relative; z-index:1; max-width:960px; margin:0 auto; }
-  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
-  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
 
-  /* Kernel/User split */
-  .split { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-bottom:20px; border:1px solid var(--border); }
-  .split-pane { padding:20px; position:relative; }
-  .split-pane.kernel { background:rgba(0,212,255,0.05); border-right:1px solid var(--border); }
-  .split-pane.user { background:rgba(255,107,157,0.04); }
-  .pane-label { font-family:'Share Tech Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-  .pane-label.k { color:#00d4ff; }
-  .pane-label.u { color:#ff6b9d; }
-  .ring-badge { font-size:0.6rem; padding:2px 8px; border:1px solid currentColor; opacity:0.7; }
-  .pane-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; }
-  .divider-arrow { text-align:center; font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--dim); padding:8px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-top:none; margin-bottom:20px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 24px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .wrapper { max-width: 960px; margin: 0 auto; }
+
+  /* Page header */
+  .page-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
+  }
+  .breadcrumb { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.05em; margin-bottom:8px; }
+  .breadcrumb span { color: var(--blue); }
+  .page-title { font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+  .page-meta { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
+  .header-pill { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 12px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:var(--blue); border-radius:4px; white-space:nowrap; margin-top:4px; }
+
+  /* Kernel / User split */
+  .ring-split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; margin-bottom: 12px;
+  }
+  .ring-pane { padding: 20px; position: relative; }
+  .ring-pane.kernel {
+    background: rgba(59,130,246,0.05);
+    border-right: 1px solid var(--border);
+    border-top: 2px solid var(--blue);
+  }
+  .ring-pane.user {
+    background: rgba(236,72,153,0.04);
+    border-top: 2px solid var(--pink);
+  }
+  .pane-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .pane-icon { font-size:1.1rem; }
+  .pane-title { font-size:0.82rem; font-weight:600; color:var(--text); }
+  .ring-badge {
+    margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+    padding:2px 8px; border-radius:3px;
+    background:rgba(255,255,255,0.04); border:1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .ring-badge.kernel-badge { color: var(--blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
+  .ring-badge.user-badge { color: var(--pink); border-color: rgba(236,72,153,0.3); background: rgba(236,72,153,0.08); }
+
+  .pane-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.65; margin-bottom:10px; }
+  .pane-desc strong { font-weight:600; }
+  .pane-desc strong.k { color: var(--blue); }
+  .pane-desc strong.u { color: var(--pink); }
+
+  .tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+  .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:rgba(255,255,255,0.03); border:1px solid var(--border); color:var(--text-dim); }
+
+  .security-note {
+    font-size:0.72rem; color:var(--green);
+    font-family:'JetBrains Mono',monospace;
+    display:flex; align-items:center; gap:6px;
+    padding: 6px 10px;
+    background: rgba(16,185,129,0.06);
+    border: 1px solid rgba(16,185,129,0.15);
+    border-radius: 4px;
+  }
+
+  /* Syscall divider */
+  .syscall-bar {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-top: none; border-radius: 0 0 6px 6px;
+    padding: 8px 16px; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-dim);
+  }
+  .syscall-bar::before, .syscall-bar::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* Concept cards */
   .concepts { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .card { border:1px solid var(--border); padding:16px 18px; background:rgba(255,255,255,0.02); position:relative; transition:all 0.3s; }
-  .card:hover { border-color:var(--c); box-shadow:0 0 16px rgba(0,0,0,0.3); }
-  .card::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,#00d4ff); }
-  .card-title { font-family:'Share Tech Mono',monospace; font-size:0.72rem; color:var(--c,#00d4ff); letter-spacing:0.1em; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
-  .card-title::before { content:'▸'; opacity:0.6; }
-  .card-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; }
-  .tag { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:0.62rem; padding:2px 7px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#5a8aaa; margin:3px 2px 0 0; }
-  .security-note { margin-top:8px; font-size:0.7rem; color:#3dffb0; font-family:'Share Tech Mono',monospace; }
-  .security-note::before { content:'🛡 '; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px 20px;
+    border-top: 2px solid var(--c, var(--blue));
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color: var(--c, var(--blue)); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+  .card-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .card-title { font-size:0.84rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; }
+  .card-desc { font-size:0.77rem; color:var(--text-muted); line-height:1.65; margin-bottom:10px; }
+  .card-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+  .card-note {
+    font-size:0.7rem; color:var(--green); font-family:'JetBrains Mono',monospace;
+    display:flex; align-items:center; gap:5px;
+    padding:5px 8px; background:rgba(16,185,129,0.06);
+    border:1px solid rgba(16,185,129,0.15); border-radius:4px;
+  }
+  .dot {
+    width:8px; height:8px; border-radius:50%;
+    background: var(--c, var(--blue)); flex-shrink:0;
+    box-shadow: 0 0 6px var(--c, var(--blue));
+  }
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <h1>// OS Core Concepts</h1>
-  <p class="subtitle">KERNEL · MEMORY · FILESYSTEM · DRIVERS · BOOT</p>
 
-  <div class="split">
-    <div class="split-pane kernel">
-      <div class="pane-label k">⚙️ KERNEL SPACE <span class="ring-badge">RING 0 · PRIVILEGED</span></div>
-      <div class="pane-desc">The core of the OS. Has <strong style="color:#00d4ff">full access to hardware</strong>. Manages system calls — requests from software to the OS. Operates in privileged mode. A bug here can compromise the entire system.</div>
-      <div style="margin-top:10px"><span class="tag">full hardware access</span><span class="tag">syscall handler</span><span class="tag">trusted</span></div>
-      <div class="security-note">Minimising kernel attack surface is critical</div>
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">Operating Systems / <span>Core Concepts</span></div>
+      <div class="page-title">OS Core Concepts</div>
+      <div class="page-meta">Kernel, memory, filesystems, drivers, and boot security</div>
     </div>
-    <div class="split-pane user">
-      <div class="pane-label u">👤 USER SPACE <span class="ring-badge">RING 3 · RESTRICTED</span></div>
-      <div class="pane-desc">Where applications run in a <strong style="color:#ff6b9d">restricted environment</strong>. Processes are isolated from each other — one app cannot read another's memory. Must request hardware access via syscalls to the kernel.</div>
-      <div style="margin-top:10px"><span class="tag">isolated processes</span><span class="tag">restricted access</span><span class="tag">syscall requests</span></div>
-      <div class="security-note">Process isolation prevents lateral movement</div>
+    <div class="header-pill">5 CONCEPTS</div>
+  </div>
+
+  <!-- Kernel / User Split -->
+  <div class="ring-split">
+    <div class="ring-pane kernel">
+      <div class="pane-header">
+        <span class="pane-icon">⚙️</span>
+        <span class="pane-title">Kernel Space</span>
+        <span class="ring-badge kernel-badge">RING 0 · PRIVILEGED</span>
+      </div>
+      <div class="pane-desc">
+        The core of the OS. Has <strong class="k">full access to hardware</strong>. Manages system calls — requests from software to the OS. Operates in privileged mode. A single bug here can compromise the entire system.
+      </div>
+      <div class="tags">
+        <span class="tag">full hardware access</span>
+        <span class="tag">syscall handler</span>
+        <span class="tag">trusted</span>
+      </div>
+      <div class="security-note">🛡 Minimising kernel attack surface is critical</div>
+    </div>
+    <div class="ring-pane user">
+      <div class="pane-header">
+        <span class="pane-icon">👤</span>
+        <span class="pane-title">User Space</span>
+        <span class="ring-badge user-badge">RING 3 · RESTRICTED</span>
+      </div>
+      <div class="pane-desc">
+        Where applications run in a <strong class="u">restricted environment</strong>. Processes are isolated from each other — one app cannot read another's memory. Must request hardware access via syscalls to the kernel.
+      </div>
+      <div class="tags">
+        <span class="tag">isolated processes</span>
+        <span class="tag">restricted access</span>
+        <span class="tag">syscall requests</span>
+      </div>
+      <div class="security-note">🛡 Process isolation prevents lateral movement</div>
     </div>
   </div>
-  <div class="divider-arrow">↑ syscall boundary — user space cannot cross without kernel permission ↑</div>
 
+  <div class="syscall-bar">↑ syscall boundary — user space cannot cross without kernel permission ↑</div>
+
+  <!-- Concept Cards -->
   <div class="concepts">
-    <div class="card" style="--c:#a78bff">
-      <div class="card-title">Process &amp; Memory Management</div>
+
+    <div class="card" style="--c:#8b5cf6">
+      <div class="card-header">
+        <div class="dot" style="--c:#8b5cf6"></div>
+        <div class="card-title">Process & Memory Management</div>
+      </div>
       <div class="card-desc">The OS schedules CPU time slices across processes and manages virtual memory through paging and segmentation — each process gets its own isolated address space mapped to physical RAM.</div>
-      <div style="margin-top:8px"><span class="tag">paging</span><span class="tag">segmentation</span><span class="tag">virtual memory</span><span class="tag">CPU scheduling</span></div>
-      <div class="security-note">ASLR · NX Bit · Stack Canaries protect this layer</div>
+      <div class="card-tags">
+        <span class="tag">paging</span><span class="tag">segmentation</span>
+        <span class="tag">virtual memory</span><span class="tag">CPU scheduling</span>
+      </div>
+      <div class="card-note">🛡 ASLR · NX Bit · Stack Canaries protect this layer</div>
     </div>
-    <div class="card" style="--c:#7fff7f">
-      <div class="card-title">Filesystems &amp; I/O</div>
+
+    <div class="card" style="--c:#10b981">
+      <div class="card-header">
+        <div class="dot" style="--c:#10b981"></div>
+        <div class="card-title">Filesystems & I/O</div>
+      </div>
       <div class="card-desc">Filesystems abstract physical storage into files and directories. The OS enforces permissions (rwx), Access Control Lists (ACLs), and Mandatory Access Controls via SELinux or AppArmor. Encrypted filesystems add confidentiality.</div>
-      <div style="margin-top:8px"><span class="tag">ACLs</span><span class="tag">SELinux</span><span class="tag">AppArmor</span><span class="tag">encryption</span></div>
-      <div class="security-note">DAC + MAC = layered access control</div>
+      <div class="card-tags">
+        <span class="tag">ACLs</span><span class="tag">SELinux</span>
+        <span class="tag">AppArmor</span><span class="tag">encryption</span>
+      </div>
+      <div class="card-note">🛡 DAC + MAC = layered access control</div>
     </div>
-    <div class="card" style="--c:#ffdd57">
-      <div class="card-title">Device Drivers &amp; Modules</div>
-      <div class="card-desc">Drivers run with kernel-level privileges, making them high-value attack targets. Modern OSes mitigate this through driver signing (cryptographic verification), sandboxing, and loading modules only when needed.</div>
-      <div style="margin-top:8px"><span class="tag">kernel privileges</span><span class="tag">driver signing</span><span class="tag">sandboxing</span><span class="tag">modular loading</span></div>
-      <div class="security-note">Unsigned drivers = untrusted code in Ring 0</div>
+
+    <div class="card" style="--c:#f59e0b">
+      <div class="card-header">
+        <div class="dot" style="--c:#f59e0b"></div>
+        <div class="card-title">Device Drivers & Modules</div>
+      </div>
+      <div class="card-desc">Drivers run with kernel-level privileges, making them high-value attack targets. Modern OSes mitigate this through driver signing, sandboxing, and loading modules only when needed.</div>
+      <div class="card-tags">
+        <span class="tag">kernel privileges</span><span class="tag">driver signing</span>
+        <span class="tag">sandboxing</span><span class="tag">modular loading</span>
+      </div>
+      <div class="card-note">🛡 Unsigned drivers = untrusted code in Ring 0</div>
     </div>
-    <div class="card" style="--c:#ff9500">
-      <div class="card-title">Boot &amp; Firmware</div>
-      <div class="card-desc">The boot process initialises hardware then loads the OS kernel. UEFI Secure Boot cryptographically verifies each step in the chain — firmware → bootloader → kernel — ensuring only signed, trusted binaries execute.</div>
-      <div style="margin-top:8px"><span class="tag">UEFI</span><span class="tag">Secure Boot</span><span class="tag">chain of trust</span><span class="tag">TPM</span></div>
-      <div class="security-note">Prevents bootkits and firmware-level rootkits</div>
+
+    <div class="card" style="--c:#f97316">
+      <div class="card-header">
+        <div class="dot" style="--c:#f97316"></div>
+        <div class="card-title">Boot & Firmware</div>
+      </div>
+      <div class="card-desc">The boot process initialises hardware then loads the OS kernel. UEFI Secure Boot cryptographically verifies each step — firmware → bootloader → kernel — ensuring only signed, trusted binaries execute.</div>
+      <div class="card-tags">
+        <span class="tag">UEFI</span><span class="tag">Secure Boot</span>
+        <span class="tag">chain of trust</span><span class="tag">TPM</span>
+      </div>
+      <div class="card-note">🛡 Prevents bootkits and firmware-level rootkits</div>
     </div>
+
   </div>
+
 </div>
 </body>
 </html>

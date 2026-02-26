@@ -5,86 +5,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OS Types</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
   :root {
-    --bg: #050a14; --panel: #0a1628; --border: #1a3a6b;
-    --accent1: #00d4ff; --text: #c8daf0; --dim: #4a6a9a;
+    --bg: #0f1117; --surface: #161b27; --surface2: #1c2333;
+    --border: #2a3347; --border-hover: #3d4f6e;
+    --text: #e2e8f0; --text-muted: #8892a4; --text-dim: #5a6478;
+    --blue: #3b82f6; --green: #10b981; --red: #ef4444;
+    --amber: #f59e0b; --purple: #8b5cf6; --teal: #14b8a6; --orange: #f97316; --pink: #ec4899;
   }
+
   * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg); font-family: 'Exo 2', sans-serif;
-    color: var(--text); min-height:100vh; padding:30px 20px;
-  }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,80,160,0.15) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px);
-    pointer-events:none; z-index:0;
-  }
-  .wrapper { position:relative; z-index:1; max-width:1000px; margin:0 auto; }
-  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
-  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
-  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .grid-bottom { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:16px; max-width:660px; margin-left:auto; margin-right:auto; }
+  body { background:var(--bg); font-family:'Inter',sans-serif; color:var(--text); min-height:100vh; padding:40px 24px; font-size:14px; line-height:1.6; }
+  .wrapper { max-width:1000px; margin:0 auto; }
+
+  .page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:36px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+  .breadcrumb { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.05em; margin-bottom:8px; }
+  .breadcrumb span { color:var(--blue); }
+  .page-title { font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
+  .page-meta { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
+  .header-pill { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 12px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:var(--blue); border-radius:4px; white-space:nowrap; margin-top:4px; }
+
+  .grid-top { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
+  .grid-bottom { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:680px; margin:0 auto; }
+
   .card {
-    border:1px solid var(--border); padding:20px;
-    background: rgba(255,255,255,0.02);
-    position:relative; transition:all 0.3s;
+    background:var(--surface); border:1px solid var(--border);
+    border-top:2px solid var(--c, var(--blue));
+    border-radius:8px; padding:20px;
+    transition:border-color 0.2s, box-shadow 0.2s;
   }
-  .card:hover { box-shadow:0 0 20px rgba(0,212,255,0.12); border-color:var(--c); }
-  .card::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,var(--accent1)); }
-  .icon { font-size:2rem; margin-bottom:10px; filter:drop-shadow(0 0 8px var(--c)); }
-  .card-title { font-size:0.9rem; font-weight:800; color:var(--c,var(--accent1)); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; }
-  .card-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; margin-bottom:10px; }
-  .examples { display:flex; flex-wrap:wrap; gap:4px; }
-  .tag { font-family:'Share Tech Mono',monospace; font-size:0.62rem; padding:2px 8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#5a8aaa; }
-  .use-case { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--c); opacity:0.8; margin-bottom:6px; }
+  .card:hover { border-color:var(--c, var(--blue)); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+
+  .card-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .card-icon {
+    width:38px; height:38px; border-radius:9px; flex-shrink:0;
+    background:rgba(255,255,255,0.04); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+  }
+  .card-title { font-size:0.88rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; }
+  .use-case { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--c, var(--blue)); margin-bottom:8px; display:flex; align-items:center; gap:4px; }
+  .use-case::before { content:'▸'; opacity:0.6; }
+  .card-desc { font-size:0.77rem; color:var(--text-muted); line-height:1.65; margin-bottom:10px; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:4px; }
+  .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:var(--surface2); border:1px solid var(--border); color:var(--text-dim); }
+
+  @media(max-width:640px) {
+    .grid-top { grid-template-columns:1fr; }
+    .grid-bottom { grid-template-columns:1fr; max-width:100%; }
+  }
 </style>
 </head>
 <body>
 <div class="wrapper">
-  <h1>// Operating System Types</h1>
-  <p class="subtitle">CLASSIFICATION &amp; USE CASES</p>
-  <div class="grid">
-    <div class="card" style="--c:#00d4ff">
-      <div class="icon">🖥️</div>
-      <div class="card-title">Desktop OS</div>
-      <div class="use-case">▸ Personal Computing</div>
-      <div class="card-desc">Designed for personal computers. Provides user-friendly GUI for everyday tasks — browsing, productivity, media. Full hardware access with broad software support.</div>
-      <div class="examples"><span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">Linux</span></div>
+
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">Operating Systems / <span>Types</span></div>
+      <div class="page-title">Operating System Types</div>
+      <div class="page-meta">Classification, use cases, and security considerations</div>
     </div>
-    <div class="card" style="--c:#ff6b9d">
-      <div class="icon">📱</div>
-      <div class="card-title">Mobile OS</div>
-      <div class="use-case">▸ Smartphones &amp; Tablets</div>
+    <div class="header-pill">5 TYPES</div>
+  </div>
+
+  <div class="grid-top">
+
+    <div class="card" style="--c:#3b82f6">
+      <div class="card-header">
+        <div class="card-icon">🖥️</div>
+        <div class="card-title">Desktop OS</div>
+      </div>
+      <div class="use-case">Personal Computing</div>
+      <div class="card-desc">Designed for personal computers. Provides a user-friendly GUI for everyday tasks — browsing, productivity, media. Full hardware access with broad software support.</div>
+      <div class="tags"><span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">Linux</span></div>
+    </div>
+
+    <div class="card" style="--c:#ec4899">
+      <div class="card-header">
+        <div class="card-icon">📱</div>
+        <div class="card-title">Mobile OS</div>
+      </div>
+      <div class="use-case">Smartphones & Tablets</div>
       <div class="card-desc">Optimised for touch interfaces, battery efficiency, and app ecosystems. Heavily sandboxed for security. GPS, camera, and sensor integration built-in.</div>
-      <div class="examples"><span class="tag">Android</span><span class="tag">iOS</span></div>
+      <div class="tags"><span class="tag">Android</span><span class="tag">iOS</span></div>
     </div>
-    <div class="card" style="--c:#ffdd57">
-      <div class="icon">🗄️</div>
-      <div class="card-title">Server OS</div>
-      <div class="use-case">▸ Network &amp; Multi-user</div>
+
+    <div class="card" style="--c:#f59e0b">
+      <div class="card-header">
+        <div class="card-icon">🗄️</div>
+        <div class="card-title">Server OS</div>
+      </div>
+      <div class="use-case">Network & Multi-user</div>
       <div class="card-desc">Built to manage network resources and handle thousands of simultaneous requests. Prioritises stability, uptime, and remote administration over GUI.</div>
-      <div class="examples"><span class="tag">Windows Server</span><span class="tag">Linux</span><span class="tag">UNIX</span></div>
+      <div class="tags"><span class="tag">Windows Server</span><span class="tag">Linux</span><span class="tag">UNIX</span></div>
     </div>
+
   </div>
+
   <div class="grid-bottom">
-    <div class="card" style="--c:#7fff7f">
-      <div class="icon">🔧</div>
-      <div class="card-title">Embedded OS</div>
-      <div class="use-case">▸ IoT &amp; Industrial Devices</div>
-      <div class="card-desc">Runs on devices with minimal resources. Executes specific, dedicated tasks only. Found in smart TVs, routers, industrial controllers, and IoT gadgets. Rarely updated — a major security risk.</div>
-      <div class="examples"><span class="tag">FreeRTOS</span><span class="tag">VxWorks</span><span class="tag">embedded Linux</span></div>
+
+    <div class="card" style="--c:#10b981">
+      <div class="card-header">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">Embedded OS</div>
+      </div>
+      <div class="use-case">IoT & Industrial Devices</div>
+      <div class="card-desc">Runs on devices with minimal resources. Executes specific, dedicated tasks only. Found in smart TVs, routers, and industrial controllers. Rarely updated — a significant security risk in practice.</div>
+      <div class="tags"><span class="tag">FreeRTOS</span><span class="tag">VxWorks</span><span class="tag">embedded Linux</span></div>
     </div>
-    <div class="card" style="--c:#ff6b35">
-      <div class="icon">⚡</div>
-      <div class="card-title">Real-Time OS (RTOS)</div>
-      <div class="use-case">▸ Critical &amp; Time-Sensitive Systems</div>
-      <div class="card-desc">Guarantees tasks complete within strict time deadlines. Used in medical devices, aircraft, and automotive systems where a delayed response can be fatal. Deterministic by design.</div>
-      <div class="examples"><span class="tag">RTOS</span><span class="tag">QNX</span><span class="tag">medical devices</span><span class="tag">automotive</span></div>
+
+    <div class="card" style="--c:#f97316">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Real-Time OS (RTOS)</div>
+      </div>
+      <div class="use-case">Critical & Time-Sensitive Systems</div>
+      <div class="card-desc">Guarantees tasks complete within strict time deadlines. Used where a delayed response can be fatal — medical devices, aircraft, and automotive systems. Deterministic by design.</div>
+      <div class="tags"><span class="tag">QNX</span><span class="tag">medical devices</span><span class="tag">automotive</span></div>
     </div>
+
   </div>
+
 </div>
 </body>
 </html>
