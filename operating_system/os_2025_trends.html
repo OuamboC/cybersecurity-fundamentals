@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Security 2025 Trends</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
+  :root { --bg:#050a14; --border:#1a3a6b; --accent1:#00d4ff; --text:#c8daf0; --dim:#4a6a9a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); font-family:'Exo 2',sans-serif; color:var(--text); min-height:100vh; padding:30px 20px; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,80,160,0.15) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px);
+    pointer-events:none; z-index:0;
+  }
+  .wrapper { position:relative; z-index:1; max-width:960px; margin:0 auto; }
+  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
+  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
+  .year-badge { text-align:center; margin-bottom:28px; }
+  .year-badge span { font-family:'Share Tech Mono',monospace; font-size:0.7rem; padding:4px 16px; border:1px solid #00d4ff; color:#00d4ff; letter-spacing:0.3em; background:rgba(0,212,255,0.05); }
+
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .trend { border:1px solid var(--border); padding:20px; background:rgba(255,255,255,0.02); position:relative; transition:all 0.3s; }
+  .trend:hover { border-color:var(--c); box-shadow:0 0 20px rgba(0,0,0,0.3); }
+  .trend::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,#00d4ff); }
+  .trend-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .trend-icon { font-size:1.6rem; filter:drop-shadow(0 0 8px var(--c)); }
+  .trend-title { font-size:0.9rem; font-weight:800; color:var(--c,#00d4ff); letter-spacing:0.08em; text-transform:uppercase; }
+  .trend-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; margin-bottom:12px; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .mini-card { padding:8px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); }
+  .mini-label { font-family:'Share Tech Mono',monospace; font-size:0.6rem; margin-bottom:4px; }
+  .mini-label.attack { color:#ff4444; }
+  .mini-label.defence { color:#3dffb0; }
+  .mini-label.attack::before { content:'⚔ ATTACK: '; }
+  .mini-label.defence::before { content:'🛡 DEFENCE: '; }
+  .mini-text { font-size:0.72rem; color:#6a8aaa; line-height:1.5; }
+
+  .tag { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 7px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#5a8aaa; margin:2px 2px 0 0; }
+  .status { font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 8px; border:1px solid var(--c); color:var(--c); opacity:0.7; margin-left:auto; }
+
+  .conclusion {
+    margin-top:20px; padding:18px 20px;
+    border:1px solid rgba(0,212,255,0.2);
+    background:rgba(0,212,255,0.03);
+    border-left:4px solid #00d4ff;
+    font-size:0.8rem; color:#7a9cc0; line-height:1.7;
+  }
+  .conclusion strong { color:#00d4ff; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <h1>// OS Security: Emerging Trends</h1>
+  <div class="year-badge"><span>2025 &amp; BEYOND</span></div>
+
+  <div class="grid">
+
+    <div class="trend" style="--c:#00d4ff">
+      <div class="trend-header">
+        <div class="trend-icon">🤖</div>
+        <div class="trend-title">AI-Driven Attacks &amp; Defences</div>
+        <div class="status">ACTIVE NOW</div>
+      </div>
+      <div class="trend-desc">AI is being weaponised on both sides of the battlefield. Attackers automate exploit generation and targeted phishing at scale; defenders use AI for anomaly detection and threat hunting.</div>
+      <div class="two-col">
+        <div class="mini-card">
+          <div class="mini-label attack"></div>
+          <div class="mini-text">AI generates exploits, automates phishing campaigns, adapts malware to evade signatures</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-label defence"></div>
+          <div class="mini-text">OS telemetry feeds AI anomaly detection — rich logging is now a security requirement</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trend" style="--c:#a78bff">
+      <div class="trend-header">
+        <div class="trend-icon">⚛️</div>
+        <div class="trend-title">Quantum Threats</div>
+        <div class="status">HORIZON RISK</div>
+      </div>
+      <div class="trend-desc">Quantum computers will eventually break today's cryptographic schemes (RSA, ECC). Future OS must be cryptographically agile — able to swap algorithms without full redesign.</div>
+      <div style="margin-top:10px">
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ AT RISK: RSA · ECC · current key exchange</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: post-quantum algorithms for secure boot, kernel signing, encrypted filesystems</div>
+        <span class="tag">post-quantum crypto</span><span class="tag">crypto agility</span><span class="tag">NIST PQC standards</span>
+      </div>
+    </div>
+
+    <div class="trend" style="--c:#7fff7f">
+      <div class="trend-header">
+        <div class="trend-icon">☁️</div>
+        <div class="trend-title">Cloud, Edge &amp; IoT Integration</div>
+        <div class="status">ACTIVE NOW</div>
+      </div>
+      <div class="trend-desc">OS now runs in VMs, containers, IoT devices, and edge nodes simultaneously. The perimeter has dissolved — traditional security models no longer apply. Misconfiguration remains the dominant risk.</div>
+      <div style="margin-top:10px">
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ RISK: misconfiguration across distributed environments</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: zero-trust models, remote attestation, distributed patch management</div>
+        <span class="tag">zero-trust</span><span class="tag">remote attestation</span><span class="tag">container security</span>
+      </div>
+    </div>
+
+    <div class="trend" style="--c:#ff9500">
+      <div class="trend-header">
+        <div class="trend-icon">🪪</div>
+        <div class="trend-title">Identity &amp; Machine Trust</div>
+        <div class="status">EVOLVING</div>
+      </div>
+      <div class="trend-desc">The boundary between human and machine identity is blurring. AI agents, service accounts, and automated pipelines act on behalf of humans — the OS must authenticate and authorise them with the same rigour.</div>
+      <div style="margin-top:10px">
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff4444; margin-bottom:6px;">⚔ RISK: machine accounts with excessive privilege</div>
+        <div style="font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#3dffb0; margin-bottom:8px;">🛡 SOLUTION: ephemeral credentials, fine-grained role enforcement, continuous authentication</div>
+        <span class="tag">ephemeral credentials</span><span class="tag">RBAC</span><span class="tag">continuous auth</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="conclusion">
+    <strong>Conclusion:</strong> Operating systems are the foundation upon which secure computing rests. As AI, quantum computing, and global cyber-crime reshape the threat landscape, the OS must evolve from a passive platform to an <strong>active, resilient cornerstone of cybersecurity</strong> — enforcing trust at every layer from firmware to application.
+  </div>
+</div>
+</body>
+</html>

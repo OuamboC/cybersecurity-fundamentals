@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Securing OS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
+  :root { --bg:#050a14; --border:#1a3a6b; --accent1:#3dffb0; --text:#c8daf0; --dim:#4a6a9a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); font-family:'Exo 2',sans-serif; color:var(--text); min-height:100vh; padding:30px 20px; }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,160,80,0.1) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,200,100,0.03) 39px, rgba(0,200,100,0.03) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,200,100,0.03) 39px, rgba(0,200,100,0.03) 40px);
+    pointer-events:none; z-index:0;
+  }
+  .wrapper { position:relative; z-index:1; max-width:960px; margin:0 auto; }
+  h1 { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--accent1); letter-spacing:0.3em; text-align:center; margin-bottom:6px; text-transform:uppercase; }
+  .subtitle { text-align:center; font-size:0.75rem; color:var(--dim); font-family:'Share Tech Mono',monospace; letter-spacing:0.2em; margin-bottom:32px; }
+
+  .practices { display:flex; flex-direction:column; gap:12px; }
+  .practice {
+    display:grid; grid-template-columns:60px 1fr auto;
+    align-items:start; gap:20px;
+    border:1px solid rgba(61,255,176,0.2); padding:18px 20px;
+    background:rgba(61,255,176,0.03); position:relative; transition:all 0.3s;
+  }
+  .practice:hover { border-color:#3dffb0; box-shadow:0 0 20px rgba(61,255,176,0.08); }
+  .practice::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,#3dffb0); }
+  .step-num {
+    font-family:'Share Tech Mono',monospace; font-size:2rem; font-weight:800;
+    color:var(--c,#3dffb0); opacity:0.25; line-height:1;
+  }
+  .practice-body {}
+  .practice-title { font-size:0.95rem; font-weight:800; color:var(--c,#3dffb0); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; }
+  .practice-desc { font-size:0.78rem; color:#7a9cc0; line-height:1.6; margin-bottom:10px; }
+  .tags { display:flex; flex-wrap:wrap; gap:4px; }
+  .tag { font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:2px 7px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#5a8aaa; }
+  .threat-blocked { font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:#ff6b35; padding:6px 10px; border:1px solid rgba(255,107,53,0.3); background:rgba(255,107,53,0.05); white-space:nowrap; align-self:center; }
+  .threat-blocked::before { content:'↯ '; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <h1>// Securing Operating Systems</h1>
+  <p class="subtitle">BEST PRACTICE APPROACHES</p>
+  <div class="practices">
+
+    <div class="practice" style="--c:#00d4ff">
+      <div class="step-num">01</div>
+      <div class="practice-body">
+        <div class="practice-title">Keep Systems Patched</div>
+        <div class="practice-desc">Timely updates are critical against newly disclosed vulnerabilities. Attackers actively scan for unpatched systems and exploit known CVEs within hours of disclosure. Patch cadence is one of the strongest indicators of security posture.</div>
+        <div class="tags"><span class="tag">CVE management</span><span class="tag">auto-update</span><span class="tag">patch SLA</span><span class="tag">vulnerability scanning</span></div>
+      </div>
+      <div class="threat-blocked">kernel exploits · known CVEs</div>
+    </div>
+
+    <div class="practice" style="--c:#ffdd57">
+      <div class="step-num">02</div>
+      <div class="practice-body">
+        <div class="practice-title">Reduce Attack Surface</div>
+        <div class="practice-desc">Disable unnecessary services, drivers, and open ports. Every running service is a potential entry point. The principle: if it's not needed, it shouldn't be running. This is sometimes called "hardening" the OS.</div>
+        <div class="tags"><span class="tag">disable unused services</span><span class="tag">close open ports</span><span class="tag">modular drivers</span><span class="tag">CIS benchmarks</span></div>
+      </div>
+      <div class="threat-blocked">misconfiguration · lateral movement</div>
+    </div>
+
+    <div class="practice" style="--c:#a78bff">
+      <div class="step-num">03</div>
+      <div class="practice-body">
+        <div class="practice-title">Enforce Least Privilege</div>
+        <div class="practice-desc">Users and processes should operate with the minimum access rights required to perform their function. If an account is compromised, least privilege limits the blast radius — the attacker can only do what that account was allowed to do.</div>
+        <div class="tags"><span class="tag">RBAC</span><span class="tag">sudo restrictions</span><span class="tag">process isolation</span><span class="tag">ACLs</span></div>
+      </div>
+      <div class="threat-blocked">privilege escalation · insider threat</div>
+    </div>
+
+    <div class="practice" style="--c:#ff9500">
+      <div class="step-num">04</div>
+      <div class="practice-body">
+        <div class="practice-title">Use Secure / Verified Boot</div>
+        <div class="practice-desc">Prevents tampered firmware or bootloaders from executing. UEFI Secure Boot validates each component in the boot chain using cryptographic signatures. Without this, attackers can persist below the OS — surviving reinstalls entirely.</div>
+        <div class="tags"><span class="tag">UEFI Secure Boot</span><span class="tag">TPM</span><span class="tag">chain of trust</span><span class="tag">firmware integrity</span></div>
+      </div>
+      <div class="threat-blocked">bootkits · firmware rootkits</div>
+    </div>
+
+    <div class="practice" style="--c:#3dffb0">
+      <div class="step-num">05</div>
+      <div class="practice-body">
+        <div class="practice-title">Enable Logging &amp; Auditing</div>
+        <div class="practice-desc">Tamper-evident logs aid detection and compliance. You cannot defend what you cannot see. Comprehensive logging enables detection of anomalies, forensic investigation after incidents, and compliance with regulatory frameworks like ISO 27001.</div>
+        <div class="tags"><span class="tag">syslog</span><span class="tag">SIEM</span><span class="tag">audit trails</span><span class="tag">tamper-evident</span><span class="tag">GDPR compliance</span></div>
+      </div>
+      <div class="threat-blocked">undetected intrusions · compliance gaps</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
