@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Fundamentals</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
+  :root {
+    --bg: #050a14; --border: #1a3a6b;
+    --accent1: #00d4ff; --text: #c8daf0; --dim: #4a6a9a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg); font-family: 'Exo 2', sans-serif;
+    color: var(--text); min-height:100vh; padding:40px 20px;
+  }
+  body::before {
+    content:''; position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(0,80,160,0.2) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,100,200,0.04) 39px, rgba(0,100,200,0.04) 40px);
+    pointer-events:none; z-index:0;
+  }
+  .wrapper { position:relative; z-index:1; max-width:900px; margin:0 auto; }
+
+  /* Header */
+  .header { text-align:center; margin-bottom:48px; }
+  .header-tag { font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--dim); letter-spacing:0.3em; margin-bottom:16px; }
+  .header h1 { font-size:2.2rem; font-weight:800; color:#fff; letter-spacing:0.05em; line-height:1.2; margin-bottom:10px; }
+  .header h1 span { color:var(--accent1); }
+  .header-desc { font-size:0.85rem; color:#7a9cc0; max-width:500px; margin:0 auto; line-height:1.7; }
+  .divider { width:60px; height:2px; background:var(--accent1); margin:20px auto; opacity:0.5; }
+
+  /* Sections */
+  .section-label {
+    font-family:'Share Tech Mono',monospace; font-size:0.7rem;
+    color:var(--dim); letter-spacing:0.25em; text-transform:uppercase;
+    margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .section { margin-bottom:36px; }
+
+  /* Cards */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+  .card {
+    border:1px solid var(--border); padding:18px 20px;
+    background:rgba(255,255,255,0.02); position:relative;
+    text-decoration:none; color:inherit; display:block;
+    transition:all 0.25s ease;
+  }
+  .card:hover { border-color:var(--c,var(--accent1)); box-shadow:0 0 24px rgba(0,212,255,0.1); transform:translateY(-2px); }
+  .card::before { content:''; position:absolute; left:0;top:0;bottom:0; width:4px; background:var(--c,var(--accent1)); }
+  .card-icon { font-size:1.4rem; margin-bottom:10px; filter:drop-shadow(0 0 6px var(--c,var(--accent1))); }
+  .card-title { font-size:0.88rem; font-weight:800; color:var(--c,var(--accent1)); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; }
+  .card-desc { font-size:0.75rem; color:#7a9cc0; line-height:1.6; margin-bottom:10px; }
+  .card-arrow { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--dim); }
+  .card:hover .card-arrow { color:var(--c,var(--accent1)); }
+
+  /* Stats bar */
+  .stats {
+    display:flex; gap:0; border:1px solid var(--border);
+    margin-bottom:40px; overflow:hidden;
+  }
+  .stat { flex:1; padding:14px 20px; text-align:center; border-right:1px solid var(--border); }
+  .stat:last-child { border-right:none; }
+  .stat-num { font-family:'Share Tech Mono',monospace; font-size:1.4rem; color:var(--accent1); }
+  .stat-label { font-size:0.65rem; color:var(--dim); letter-spacing:0.15em; text-transform:uppercase; margin-top:2px; }
+
+  /* Footer */
+  .footer { text-align:center; margin-top:48px; padding-top:20px; border-top:1px solid var(--border); }
+  .footer p { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--dim); letter-spacing:0.15em; }
+  .footer a { color:var(--accent1); text-decoration:none; }
+  .footer a:hover { text-decoration:underline; }
+
+  @media(max-width:600px) {
+    .stats { flex-wrap:wrap; }
+    .stat { flex:1 1 50%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-tag">// CAPSLOCK PROGRAMME · COHORT 2025</div>
+    <h1>Cybersecurity<br><span>Fundamentals</span></h1>
+    <div class="divider"></div>
+    <p class="header-desc">A structured learning repository covering core cybersecurity concepts — from OS internals and network forensics to risk management and ethical frameworks.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">01</div>
+      <div class="stat-label">Module</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">06</div>
+      <div class="stat-label">Diagrams</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">05</div>
+      <div class="stat-label">Topics</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Learning</div>
+    </div>
+  </div>
+
+  <!-- OS Module -->
+  <div class="section">
+    <div class="section-label">Module 01 — Operating Systems</div>
+    <div class="cards">
+
+      <a href="operating_system/os_architecture.html" class="card" style="--c:#00d4ff">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">OS Architecture</div>
+        <div class="card-desc">Full layered stack from hardware to user space. Security mechanisms mapped per layer.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+      <a href="operating_system/os_types.html" class="card" style="--c:#ff6b9d">
+        <div class="card-icon">🖥️</div>
+        <div class="card-title">OS Types</div>
+        <div class="card-desc">Desktop, Mobile, Server, Embedded, and Real-Time OS — use cases and security implications.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+      <a href="operating_system/os_core_concepts.html" class="card" style="--c:#a78bff">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Core Concepts</div>
+        <div class="card-desc">Kernel vs User Space, memory management, filesystems, drivers, and boot security.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+      <a href="operating_system/os_threats.html" class="card" style="--c:#ff4444">
+        <div class="card-icon">⚠️</div>
+        <div class="card-title">Threat Landscape</div>
+        <div class="card-desc">Kernel exploits, malware, side-channel attacks, supply chain risks, and misconfiguration.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+      <a href="operating_system/os_securing.html" class="card" style="--c:#3dffb0">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">Securing the OS</div>
+        <div class="card-desc">Five best practice approaches — patching, attack surface reduction, least privilege, secure boot, logging.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+      <a href="operating_system/os_2025_trends.html" class="card" style="--c:#ffdd57">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">2025 Emerging Trends</div>
+        <div class="card-desc">AI-driven attacks, quantum threats, cloud/IoT integration, and machine identity.</div>
+        <div class="card-arrow">VIEW DIAGRAM →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- More coming -->
+  <div class="section">
+    <div class="section-label">Coming Soon</div>
+    <div class="cards">
+      <div class="card" style="--c:#4a6a9a; opacity:0.5; cursor:default;">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">Networking Fundamentals</div>
+        <div class="card-desc">TCP/IP, DNS, packet analysis, protocols and network forensics.</div>
+        <div class="card-arrow">IN PROGRESS...</div>
+      </div>
+      <div class="card" style="--c:#4a6a9a; opacity:0.5; cursor:default;">
+        <div class="card-icon">⚖️</div>
+        <div class="card-title">Risk Management</div>
+        <div class="card-desc">OCTAVE Allegro methodology, risk scoring, and business alignment.</div>
+        <div class="card-arrow">IN PROGRESS...</div>
+      </div>
+      <div class="card" style="--c:#4a6a9a; opacity:0.5; cursor:default;">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Human Factors</div>
+        <div class="card-desc">Social engineering, security culture, and behavioural psychology.</div>
+        <div class="card-arrow">IN PROGRESS...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>CYBERSECURITY-FUNDAMENTALS · <a href="https://github.com/OuamboC/cybersecurity-fundamentals" target="_blank">GITHUB</a> · CAPSLOCK 2025</p>
+  </div>
+
+</div>
+</body>
+</html>
