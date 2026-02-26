@@ -6,66 +6,37 @@
 <title>Securing OS</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
   :root {
-    --bg: #0f1117; --surface: #161b27; --surface2: #1c2333;
-    --border: #2a3347; --border-hover: #3d4f6e;
-    --text: #e2e8f0; --text-muted: #8892a4; --text-dim: #5a6478;
+    --bg: #ffffff; --surface: #f8f9fc; --surface2: #f1f4f8;
+    --border: #e2e8f0; --border-hover: #cbd5e1;
+    --text: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     --blue: #3b82f6; --green: #10b981; --red: #ef4444;
     --amber: #f59e0b; --purple: #8b5cf6; --teal: #14b8a6; --orange: #f97316;
   }
-
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); font-family:'Inter',sans-serif; color:var(--text); min-height:100vh; padding:40px 24px; font-size:14px; line-height:1.6; }
   .wrapper { max-width:960px; margin:0 auto; }
-
   .page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:36px; padding-bottom:24px; border-bottom:1px solid var(--border); }
   .breadcrumb { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.05em; margin-bottom:8px; }
   .breadcrumb span { color:var(--green); }
   .page-title { font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
   .page-meta { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
   .header-pill { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 12px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); color:var(--green); border-radius:4px; white-space:nowrap; margin-top:4px; }
-
   .practices { display:flex; flex-direction:column; gap:12px; }
-
-  .practice {
-    display:grid; grid-template-columns:56px 1fr auto;
-    align-items:center; gap:20px;
-    background:var(--surface); border:1px solid var(--border);
-    border-left:3px solid var(--c, var(--green));
-    border-radius:8px; padding:18px 20px;
-    transition:border-color 0.2s, box-shadow 0.2s;
-  }
-  .practice:hover { border-color:var(--c, var(--green)); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
-
-  .step-num {
-    font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700;
-    color:var(--c, var(--green)); opacity:0.2; line-height:1; text-align:center;
-  }
-
+  .practice { display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:20px; background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--c, var(--green)); border-radius:8px; padding:18px 20px; transition:border-color 0.2s, box-shadow 0.2s; }
+  .practice:hover { border-color:var(--c, var(--green)); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .step-num { font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700; color:var(--c, var(--green)); opacity:0.2; line-height:1; text-align:center; }
   .practice-title { font-size:0.88rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; margin-bottom:5px; }
   .practice-desc { font-size:0.77rem; color:var(--text-muted); line-height:1.65; margin-bottom:10px; }
-
   .tags { display:flex; flex-wrap:wrap; gap:4px; }
   .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:var(--surface2); border:1px solid var(--border); color:var(--text-dim); }
-
-  .threat-blocked {
-    font-family:'JetBrains Mono',monospace; font-size:0.62rem;
-    padding:6px 12px; border-radius:5px; white-space:nowrap; align-self:center;
-    background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2);
-    color:#ef4444; text-align:center; min-width:140px;
-  }
+  .threat-blocked { font-family:'JetBrains Mono',monospace; font-size:0.62rem; padding:6px 12px; border-radius:5px; white-space:nowrap; align-self:center; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#ef4444; text-align:center; min-width:140px; }
   .threat-blocked::before { content:'↯ '; }
-
-  @media(max-width:640px) {
-    .practice { grid-template-columns:40px 1fr; }
-    .threat-blocked { display:none; }
-  }
+  @media(max-width:640px) { .practice { grid-template-columns:40px 1fr; } .threat-blocked { display:none; } }
 </style>
 </head>
 <body>
 <div class="wrapper">
-
   <div class="page-header">
     <div>
       <div class="breadcrumb">Operating Systems / <span>Security</span></div>
@@ -74,59 +45,32 @@
     </div>
     <div class="header-pill">5 CONTROLS</div>
   </div>
-
   <div class="practices">
-
     <div class="practice" style="--c:#3b82f6">
       <div class="step-num">01</div>
-      <div>
-        <div class="practice-title">Keep Systems Patched</div>
-        <div class="practice-desc">Timely updates are critical against newly disclosed vulnerabilities. Attackers actively scan for unpatched systems and exploit known CVEs within hours of disclosure. Patch cadence is one of the strongest indicators of security posture.</div>
-        <div class="tags"><span class="tag">CVE management</span><span class="tag">auto-update</span><span class="tag">patch SLA</span><span class="tag">vulnerability scanning</span></div>
-      </div>
+      <div><div class="practice-title">Keep Systems Patched</div><div class="practice-desc">Timely updates are critical against newly disclosed vulnerabilities. Attackers actively scan for unpatched systems and exploit known CVEs within hours of disclosure. Patch cadence is one of the strongest indicators of security posture.</div><div class="tags"><span class="tag">CVE management</span><span class="tag">auto-update</span><span class="tag">patch SLA</span><span class="tag">vulnerability scanning</span></div></div>
       <div class="threat-blocked">kernel exploits · known CVEs</div>
     </div>
-
     <div class="practice" style="--c:#f59e0b">
       <div class="step-num">02</div>
-      <div>
-        <div class="practice-title">Reduce Attack Surface</div>
-        <div class="practice-desc">Disable unnecessary services, drivers, and open ports. Every running service is a potential entry point. If it's not needed, it shouldn't be running. This process is commonly called OS hardening.</div>
-        <div class="tags"><span class="tag">disable unused services</span><span class="tag">close open ports</span><span class="tag">modular drivers</span><span class="tag">CIS benchmarks</span></div>
-      </div>
+      <div><div class="practice-title">Reduce Attack Surface</div><div class="practice-desc">Disable unnecessary services, drivers, and open ports. Every running service is a potential entry point. If it's not needed, it shouldn't be running. This process is commonly called OS hardening.</div><div class="tags"><span class="tag">disable unused services</span><span class="tag">close open ports</span><span class="tag">modular drivers</span><span class="tag">CIS benchmarks</span></div></div>
       <div class="threat-blocked">misconfiguration · lateral movement</div>
     </div>
-
     <div class="practice" style="--c:#8b5cf6">
       <div class="step-num">03</div>
-      <div>
-        <div class="practice-title">Enforce Least Privilege</div>
-        <div class="practice-desc">Users and processes should operate with the minimum access rights required. If an account is compromised, least privilege limits the blast radius — the attacker can only do what that account was allowed to do.</div>
-        <div class="tags"><span class="tag">RBAC</span><span class="tag">sudo restrictions</span><span class="tag">process isolation</span><span class="tag">ACLs</span></div>
-      </div>
+      <div><div class="practice-title">Enforce Least Privilege</div><div class="practice-desc">Users and processes should operate with the minimum access rights required. If an account is compromised, least privilege limits the blast radius — the attacker can only do what that account was allowed to do.</div><div class="tags"><span class="tag">RBAC</span><span class="tag">sudo restrictions</span><span class="tag">process isolation</span><span class="tag">ACLs</span></div></div>
       <div class="threat-blocked">privilege escalation · insider threat</div>
     </div>
-
     <div class="practice" style="--c:#f97316">
       <div class="step-num">04</div>
-      <div>
-        <div class="practice-title">Use Secure / Verified Boot</div>
-        <div class="practice-desc">Prevents tampered firmware or bootloaders from executing. UEFI Secure Boot validates each component in the boot chain using cryptographic signatures. Without this, attackers can persist below the OS — surviving reinstalls entirely.</div>
-        <div class="tags"><span class="tag">UEFI Secure Boot</span><span class="tag">TPM</span><span class="tag">chain of trust</span><span class="tag">firmware integrity</span></div>
-      </div>
+      <div><div class="practice-title">Use Secure / Verified Boot</div><div class="practice-desc">Prevents tampered firmware or bootloaders from executing. UEFI Secure Boot validates each component in the boot chain using cryptographic signatures. Without this, attackers can persist below the OS — surviving reinstalls entirely.</div><div class="tags"><span class="tag">UEFI Secure Boot</span><span class="tag">TPM</span><span class="tag">chain of trust</span><span class="tag">firmware integrity</span></div></div>
       <div class="threat-blocked">bootkits · firmware rootkits</div>
     </div>
-
     <div class="practice" style="--c:#10b981">
       <div class="step-num">05</div>
-      <div>
-        <div class="practice-title">Enable Logging & Auditing</div>
-        <div class="practice-desc">Tamper-evident logs aid detection and compliance. You cannot defend what you cannot see. Comprehensive logging enables anomaly detection, forensic investigation, and compliance with frameworks like ISO 27001.</div>
-        <div class="tags"><span class="tag">syslog</span><span class="tag">SIEM</span><span class="tag">audit trails</span><span class="tag">tamper-evident</span><span class="tag">GDPR compliance</span></div>
-      </div>
+      <div><div class="practice-title">Enable Logging & Auditing</div><div class="practice-desc">Tamper-evident logs aid detection and compliance. You cannot defend what you cannot see. Comprehensive logging enables anomaly detection, forensic investigation, and compliance with frameworks like ISO 27001.</div><div class="tags"><span class="tag">syslog</span><span class="tag">SIEM</span><span class="tag">audit trails</span><span class="tag">tamper-evident</span><span class="tag">GDPR compliance</span></div></div>
       <div class="threat-blocked">undetected intrusions · compliance gaps</div>
     </div>
-
   </div>
 </div>
 </body>

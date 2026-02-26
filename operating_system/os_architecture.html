@@ -6,163 +6,64 @@
 <title>OS Architecture & Security</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
   :root {
-    --bg: #0f1117;
-    --surface: #161b27;
-    --surface2: #1c2333;
-    --border: #2a3347;
-    --border-hover: #3d4f6e;
-    --text: #e2e8f0;
-    --text-muted: #8892a4;
-    --text-dim: #5a6478;
-    --blue: #3b82f6;
-    --green: #10b981;
-    --red: #ef4444;
-    --amber: #f59e0b;
-    --purple: #8b5cf6;
-    --teal: #14b8a6;
-    --orange: #f97316;
-    --pink: #ec4899;
+    --bg: #ffffff;
+    --surface: #f8f9fc;
+    --surface2: #f1f4f8;
+    --border: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-dim: #94a3b8;
+    --blue: #3b82f6; --green: #10b981; --red: #ef4444;
+    --amber: #f59e0b; --purple: #8b5cf6; --teal: #14b8a6; --orange: #f97316; --pink: #ec4899;
   }
-
   * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--bg);
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-    padding: 40px 24px;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  .wrapper { max-width: 960px; margin: 0 auto; }
-
-  /* Page header */
-  .page-header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid var(--border);
-  }
+  body { background:var(--bg); font-family:'Inter',sans-serif; color:var(--text); min-height:100vh; padding:40px 24px; font-size:14px; line-height:1.6; }
+  .wrapper { max-width:960px; margin:0 auto; }
+  .page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:36px; padding-bottom:24px; border-bottom:1px solid var(--border); }
   .breadcrumb { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.05em; margin-bottom:8px; }
   .breadcrumb span { color:var(--blue); }
   .page-title { font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; }
   .page-meta { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
   .header-pill { font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 12px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); color:var(--blue); border-radius:4px; letter-spacing:0.05em; white-space:nowrap; margin-top:4px; }
-
-  /* Stack layers */
   .stack { display:flex; flex-direction:column; gap:0; }
-
-  .layer {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--c, var(--blue));
-    padding: 18px 20px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    position: relative;
-  }
-  .layer + .layer { border-top: none; }
-  .layer:hover { border-color: var(--c, var(--blue)); box-shadow: 0 2px 16px rgba(0,0,0,0.3); z-index:1; }
-
+  .layer { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--c, var(--blue)); padding:18px 20px; transition:border-color 0.2s, box-shadow 0.2s; position:relative; }
+  .layer + .layer { border-top:none; }
+  .layer:hover { border-color:var(--c, var(--blue)); box-shadow:0 2px 16px rgba(0,0,0,0.08); z-index:1; }
   .layer-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-  .layer-icon {
-    width:34px; height:34px; border-radius:7px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    display:flex; align-items:center; justify-content:center;
-    font-size:1rem; flex-shrink:0;
-  }
+  .layer-icon { width:34px; height:34px; border-radius:7px; background:rgba(0,0,0,0.04); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
   .layer-title { font-size:0.88rem; font-weight:600; color:var(--text); letter-spacing:-0.01em; }
-  .layer-badge {
-    margin-left:auto;
-    font-family:'JetBrains Mono',monospace; font-size:0.62rem;
-    padding:2px 10px; border-radius:3px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    color: var(--c, var(--blue));
-  }
-
+  .layer-badge { margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:0.62rem; padding:2px 10px; border-radius:3px; background:rgba(0,0,0,0.04); border:1px solid var(--border); color:var(--c, var(--blue)); }
   .layer-body { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .layer-body.triple { grid-template-columns:1fr 1fr 1fr; }
   .layer-body.single { grid-template-columns:1fr; }
-
-  .card {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
-  }
-  .card-title {
-    font-family:'JetBrains Mono',monospace; font-size:0.68rem;
-    color: var(--c, var(--blue)); letter-spacing:0.04em;
-    margin-bottom:6px; display:flex; align-items:center; gap:5px;
-  }
+  .card { background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:12px 14px; }
+  .card-title { font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--c, var(--blue)); letter-spacing:0.04em; margin-bottom:6px; display:flex; align-items:center; gap:5px; }
   .card-title::before { content:'▸'; opacity:0.5; }
   .card-desc { font-size:0.76rem; color:var(--text-muted); line-height:1.6; }
-
   .tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:7px; }
-  .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:rgba(255,255,255,0.03); border:1px solid var(--border); color:var(--text-dim); }
-
+  .tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:var(--surface2); border:1px solid var(--border); color:var(--text-dim); }
   .threat-tag { font-family:'JetBrains Mono',monospace; font-size:0.6rem; padding:2px 7px; border-radius:3px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#ef4444; margin:2px 2px 0 0; display:inline-block; }
-
-  /* Connectors */
-  .connector {
-    display:flex; align-items:center; justify-content:center;
-    height:26px; position:relative;
-    background: var(--bg);
-  }
-  .connector::before {
-    content:''; position:absolute; left:50%; top:0; bottom:0;
-    width:1px; background:var(--border); transform:translateX(-50%);
-  }
-  .connector-label {
-    font-family:'JetBrains Mono',monospace; font-size:0.6rem;
-    color:var(--text-dim); background:var(--bg);
-    padding:2px 10px; position:relative; z-index:1;
-    letter-spacing:0.05em;
-  }
-
-  /* Security summary */
+  .connector { display:flex; align-items:center; justify-content:center; height:26px; position:relative; background:var(--bg); }
+  .connector::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--border); transform:translateX(-50%); }
+  .connector-label { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-dim); background:var(--bg); padding:2px 10px; position:relative; z-index:1; letter-spacing:0.05em; }
   .security-section { margin-top:28px; }
-  .section-header {
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);
-  }
+  .section-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border); }
   .section-title { font-size:0.88rem; font-weight:600; color:var(--text); }
   .section-subtitle { font-size:0.75rem; color:var(--text-muted); margin-left:auto; font-family:'JetBrains Mono',monospace; }
-
   .sec-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-  .sec-item {
-    background:var(--surface); border:1px solid var(--border);
-    border-top: 2px solid var(--green);
-    border-radius:6px; padding:12px 14px;
-    transition: border-color 0.2s;
-  }
-  .sec-item:hover { border-color:var(--green); box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+  .sec-item { background:var(--surface); border:1px solid var(--border); border-top:2px solid var(--green); border-radius:6px; padding:12px 14px; transition:border-color 0.2s; }
+  .sec-item:hover { border-color:var(--green); box-shadow:0 2px 12px rgba(0,0,0,0.08); }
   .sec-name { font-family:'JetBrains Mono',monospace; font-size:0.72rem; font-weight:500; color:var(--green); margin-bottom:5px; }
   .sec-desc { font-size:0.74rem; color:var(--text-muted); line-height:1.5; margin-bottom:7px; }
-
-  /* Layer color vars */
-  .l-user     { --c: #ec4899; }
-  .l-kernel   { --c: #3b82f6; }
-  .l-memory   { --c: #8b5cf6; }
-  .l-fs       { --c: #10b981; }
-  .l-drivers  { --c: #f59e0b; }
-  .l-firmware { --c: #f97316; }
-  .l-hardware { --c: #ef4444; }
-
-  @media (max-width:640px) {
-    .layer-body { grid-template-columns:1fr; }
-    .layer-body.triple { grid-template-columns:1fr 1fr; }
-    .sec-grid { grid-template-columns:1fr 1fr; }
-    .page-header { flex-direction:column; gap:12px; }
-  }
+  .l-user { --c:#ec4899; } .l-kernel { --c:#3b82f6; } .l-memory { --c:#8b5cf6; }
+  .l-fs { --c:#10b981; } .l-drivers { --c:#f59e0b; } .l-firmware { --c:#f97316; } .l-hardware { --c:#ef4444; }
+  @media(max-width:640px) { .layer-body { grid-template-columns:1fr; } .layer-body.triple { grid-template-columns:1fr 1fr; } .sec-grid { grid-template-columns:1fr 1fr; } .page-header { flex-direction:column; gap:12px; } }
 </style>
 </head>
 <body>
 <div class="wrapper">
-
   <div class="page-header">
     <div>
       <div class="breadcrumb">Operating Systems / <span>Architecture</span></div>
@@ -171,222 +72,78 @@
     </div>
     <div class="header-pill">7 LAYERS · RING 0–3</div>
   </div>
-
   <div class="stack">
-
-    <!-- USER SPACE -->
     <div class="layer l-user">
-      <div class="layer-header">
-        <div class="layer-icon">👤</div>
-        <div class="layer-title">User Space</div>
-        <div class="layer-badge">RING 3</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">👤</div><div class="layer-title">User Space</div><div class="layer-badge">RING 3</div></div>
       <div class="layer-body">
-        <div class="card">
-          <div class="card-title">Applications & Processes</div>
-          <div class="card-desc">Programs run here with limited privileges. The OS isolates each process with its own virtual address space, preventing one process from accessing another's memory.</div>
-          <div class="tags"><span class="tag">process isolation</span><span class="tag">virtual memory</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">CPU Scheduling</div>
-          <div class="card-desc">OS allocates CPU time slices to processes. Context switching saves/restores process state, enabling multitasking while maintaining security boundaries.</div>
-          <div class="tags"><span class="tag">time slices</span><span class="tag">context switch</span></div>
-        </div>
+        <div class="card"><div class="card-title">Applications & Processes</div><div class="card-desc">Programs run here with limited privileges. The OS isolates each process with its own virtual address space, preventing one process from accessing another's memory.</div><div class="tags"><span class="tag">process isolation</span><span class="tag">virtual memory</span></div></div>
+        <div class="card"><div class="card-title">CPU Scheduling</div><div class="card-desc">OS allocates CPU time slices to processes. Context switching saves/restores process state, enabling multitasking while maintaining security boundaries.</div><div class="tags"><span class="tag">time slices</span><span class="tag">context switch</span></div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">syscall interface</span></div>
-
-    <!-- KERNEL -->
     <div class="layer l-kernel">
-      <div class="layer-header">
-        <div class="layer-icon">⚙️</div>
-        <div class="layer-title">Kernel</div>
-        <div class="layer-badge">RING 0 · PRIVILEGED</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">⚙️</div><div class="layer-title">Kernel</div><div class="layer-badge">RING 0 · PRIVILEGED</div></div>
       <div class="layer-body triple">
-        <div class="card">
-          <div class="card-title">Process Management</div>
-          <div class="card-desc">Schedules CPU time, manages process lifecycle, enforces isolation via protection rings.</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Memory Management</div>
-          <div class="card-desc">Virtual-to-physical address translation via page tables. Implements paging & segmentation.</div>
-          <div class="tags"><span class="tag">paging</span><span class="tag">segmentation</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">I/O & Syscall Handler</div>
-          <div class="card-desc">Gatekeeper for all hardware access. Validates and mediates all system calls from user space.</div>
-        </div>
+        <div class="card"><div class="card-title">Process Management</div><div class="card-desc">Schedules CPU time, manages process lifecycle, enforces isolation via protection rings.</div></div>
+        <div class="card"><div class="card-title">Memory Management</div><div class="card-desc">Virtual-to-physical address translation via page tables. Implements paging & segmentation.</div><div class="tags"><span class="tag">paging</span><span class="tag">segmentation</span></div></div>
+        <div class="card"><div class="card-title">I/O & Syscall Handler</div><div class="card-desc">Gatekeeper for all hardware access. Validates and mediates all system calls from user space.</div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">memory subsystem</span></div>
-
-    <!-- MEMORY PROTECTION -->
     <div class="layer l-memory">
-      <div class="layer-header">
-        <div class="layer-icon">🔐</div>
-        <div class="layer-title">Memory Protection</div>
-        <div class="layer-badge">ANTI-EXPLOITATION</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">🔐</div><div class="layer-title">Memory Protection</div><div class="layer-badge">ANTI-EXPLOITATION</div></div>
       <div class="layer-body triple">
-        <div class="card">
-          <div class="card-title">ASLR</div>
-          <div class="card-desc">Address Space Layout Randomisation. Randomly positions stack, heap, and libraries so attackers cannot predict where injected code lands.</div>
-          <div class="tags"><span class="threat-tag">↯ buffer overflow</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">NX Bit</div>
-          <div class="card-desc">Non-Executable bit marks memory regions as non-executable. Prevents shellcode injected into data regions from running as code.</div>
-          <div class="tags"><span class="threat-tag">↯ code injection</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Stack Canaries</div>
-          <div class="card-desc">A random value placed before the return address. If a buffer overflow overwrites it, the OS detects this and terminates the process.</div>
-          <div class="tags"><span class="threat-tag">↯ stack smashing</span></div>
-        </div>
+        <div class="card"><div class="card-title">ASLR</div><div class="card-desc">Address Space Layout Randomisation. Randomly positions stack, heap, and libraries so attackers cannot predict where injected code lands.</div><div class="tags"><span class="threat-tag">↯ buffer overflow</span></div></div>
+        <div class="card"><div class="card-title">NX Bit</div><div class="card-desc">Non-Executable bit marks memory regions as non-executable. Prevents shellcode injected into data regions from running as code.</div><div class="tags"><span class="threat-tag">↯ code injection</span></div></div>
+        <div class="card"><div class="card-title">Stack Canaries</div><div class="card-desc">A random value placed before the return address. If a buffer overflow overwrites it, the OS detects this and terminates the process.</div><div class="tags"><span class="threat-tag">↯ stack smashing</span></div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">vfs layer</span></div>
-
-    <!-- FILESYSTEM -->
     <div class="layer l-fs">
-      <div class="layer-header">
-        <div class="layer-icon">🗂️</div>
-        <div class="layer-title">Filesystems & I/O</div>
-        <div class="layer-badge">ACCESS CONTROL</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">🗂️</div><div class="layer-title">Filesystems & I/O</div><div class="layer-badge">ACCESS CONTROL</div></div>
       <div class="layer-body">
-        <div class="card">
-          <div class="card-title">Permissions & ACLs</div>
-          <div class="card-desc">Standard Unix permissions (rwx) plus Access Control Lists give fine-grained file access control. Supplemented by SELinux or AppArmor for mandatory, policy-based restrictions beyond standard permissions.</div>
-          <div class="tags"><span class="tag">DAC</span><span class="tag">MAC</span><span class="tag">SELinux</span><span class="tag">AppArmor</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Encrypted Filesystems</div>
-          <div class="card-desc">Encryption at the filesystem level (eCryptfs, BitLocker, LUKS) ensures confidentiality even if physical media is stolen. Transparent to authorised users.</div>
-          <div class="tags"><span class="tag">LUKS</span><span class="tag">eCryptfs</span><span class="tag">confidentiality</span></div>
-        </div>
+        <div class="card"><div class="card-title">Permissions & ACLs</div><div class="card-desc">Standard Unix permissions (rwx) plus Access Control Lists give fine-grained file access control. Supplemented by SELinux or AppArmor for mandatory, policy-based restrictions beyond standard permissions.</div><div class="tags"><span class="tag">DAC</span><span class="tag">MAC</span><span class="tag">SELinux</span><span class="tag">AppArmor</span></div></div>
+        <div class="card"><div class="card-title">Encrypted Filesystems</div><div class="card-desc">Encryption at the filesystem level (eCryptfs, BitLocker, LUKS) ensures confidentiality even if physical media is stolen. Transparent to authorised users.</div><div class="tags"><span class="tag">LUKS</span><span class="tag">eCryptfs</span><span class="tag">confidentiality</span></div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">kernel ↔ hardware interface</span></div>
-
-    <!-- DEVICE DRIVERS -->
     <div class="layer l-drivers">
-      <div class="layer-header">
-        <div class="layer-icon">🔌</div>
-        <div class="layer-title">Device Drivers & Modules</div>
-        <div class="layer-badge">KERNEL PRIVILEGE</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">🔌</div><div class="layer-title">Device Drivers & Modules</div><div class="layer-badge">KERNEL PRIVILEGE</div></div>
       <div class="layer-body triple">
-        <div class="card">
-          <div class="card-title">Kernel-Level Execution</div>
-          <div class="card-desc">Drivers run with full kernel privileges — a vulnerability here can compromise the entire system, making them high-value attack targets.</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Driver Signing</div>
-          <div class="card-desc">Modern OSes require cryptographically signed drivers. Unsigned or tampered drivers are blocked, preventing malicious kernel modules.</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Sandboxing & Modular Loading</div>
-          <div class="card-desc">Drivers are sandboxed where possible and loaded only when needed, reducing the exposed attack surface at any given time.</div>
-        </div>
+        <div class="card"><div class="card-title">Kernel-Level Execution</div><div class="card-desc">Drivers run with full kernel privileges — a vulnerability here can compromise the entire system, making them high-value attack targets.</div></div>
+        <div class="card"><div class="card-title">Driver Signing</div><div class="card-desc">Modern OSes require cryptographically signed drivers. Unsigned or tampered drivers are blocked, preventing malicious kernel modules.</div></div>
+        <div class="card"><div class="card-title">Sandboxing & Modular Loading</div><div class="card-desc">Drivers are sandboxed where possible and loaded only when needed, reducing the exposed attack surface at any given time.</div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">power-on → POST → bootloader</span></div>
-
-    <!-- FIRMWARE -->
     <div class="layer l-firmware">
-      <div class="layer-header">
-        <div class="layer-icon">⚡</div>
-        <div class="layer-title">Boot & Firmware</div>
-        <div class="layer-badge">PRE-OS · LOWEST LAYER</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">⚡</div><div class="layer-title">Boot & Firmware</div><div class="layer-badge">PRE-OS · LOWEST LAYER</div></div>
       <div class="layer-body">
-        <div class="card">
-          <div class="card-title">UEFI & Secure Boot</div>
-          <div class="card-desc">UEFI replaces legacy BIOS and initialises hardware. Secure Boot cryptographically verifies each component in the boot chain — bootloader, kernel, drivers — before execution.</div>
-          <div class="tags"><span class="tag">chain of trust</span><span class="tag">TPM</span><span class="tag">UEFI</span></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Threats Defended</div>
-          <div class="card-desc">Without Secure Boot, attackers can plant bootkits or firmware rootkits that load before the OS and persist invisibly — surviving even full reinstalls.</div>
-          <div class="tags"><span class="threat-tag">↯ bootkits</span><span class="threat-tag">↯ firmware rootkits</span></div>
-        </div>
+        <div class="card"><div class="card-title">UEFI & Secure Boot</div><div class="card-desc">UEFI replaces legacy BIOS and initialises hardware. Secure Boot cryptographically verifies each component in the boot chain — bootloader, kernel, drivers — before execution.</div><div class="tags"><span class="tag">chain of trust</span><span class="tag">TPM</span><span class="tag">UEFI</span></div></div>
+        <div class="card"><div class="card-title">Threats Defended</div><div class="card-desc">Without Secure Boot, attackers can plant bootkits or firmware rootkits that load before the OS and persist invisibly — surviving even full reinstalls.</div><div class="tags"><span class="threat-tag">↯ bootkits</span><span class="threat-tag">↯ firmware rootkits</span></div></div>
       </div>
     </div>
-
     <div class="connector"><span class="connector-label">hardware abstraction layer</span></div>
-
-    <!-- HARDWARE -->
     <div class="layer l-hardware">
-      <div class="layer-header">
-        <div class="layer-icon">🖥️</div>
-        <div class="layer-title">Hardware</div>
-        <div class="layer-badge">PHYSICAL LAYER</div>
-      </div>
+      <div class="layer-header"><div class="layer-icon">🖥️</div><div class="layer-title">Hardware</div><div class="layer-badge">PHYSICAL LAYER</div></div>
       <div class="layer-body triple">
-        <div class="card">
-          <div class="card-title">CPU & Protection Rings</div>
-          <div class="card-desc">CPU enforces privilege rings (Ring 0–3). Kernel in Ring 0 has full access; user apps in Ring 3 are restricted.</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Physical Memory (RAM)</div>
-          <div class="card-desc">Foundation for all virtual memory abstractions. The MMU performs hardware-enforced address translation.</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Storage & Peripherals</div>
-          <div class="card-desc">Physical disks, network cards, USB controllers. All access is mediated by the OS via device drivers — never directly from user space.</div>
-        </div>
+        <div class="card"><div class="card-title">CPU & Protection Rings</div><div class="card-desc">CPU enforces privilege rings (Ring 0–3). Kernel in Ring 0 has full access; user apps in Ring 3 are restricted.</div></div>
+        <div class="card"><div class="card-title">Physical Memory (RAM)</div><div class="card-desc">Foundation for all virtual memory abstractions. The MMU performs hardware-enforced address translation.</div></div>
+        <div class="card"><div class="card-title">Storage & Peripherals</div><div class="card-desc">Physical disks, network cards, USB controllers. All access is mediated by the OS via device drivers — never directly from user space.</div></div>
       </div>
     </div>
-
   </div>
-
-  <!-- Security Summary -->
   <div class="security-section">
-    <div class="section-header">
-      <div class="section-title">🛡 Security Mechanism Summary</div>
-      <div class="section-subtitle">6 CONTROLS</div>
-    </div>
+    <div class="section-header"><div class="section-title">🛡 Security Mechanism Summary</div><div class="section-subtitle">6 CONTROLS</div></div>
     <div class="sec-grid">
-      <div class="sec-item">
-        <div class="sec-name">ASLR</div>
-        <div class="sec-desc">Randomises memory layout on each run so attackers can't hardcode exploit addresses.</div>
-        <span class="threat-tag">↯ buffer overflows</span>
-      </div>
-      <div class="sec-item">
-        <div class="sec-name">NX / DEP Bit</div>
-        <div class="sec-desc">Marks stack/heap as non-executable. Code injected into data regions cannot run.</div>
-        <span class="threat-tag">↯ shellcode injection</span>
-      </div>
-      <div class="sec-item">
-        <div class="sec-name">Stack Canaries</div>
-        <div class="sec-desc">Random value guards return address. Overflow detected before control is hijacked.</div>
-        <span class="threat-tag">↯ stack smashing</span>
-      </div>
-      <div class="sec-item">
-        <div class="sec-name">UEFI Secure Boot</div>
-        <div class="sec-desc">Cryptographic chain of trust from firmware to kernel. Prevents pre-OS malware.</div>
-        <span class="threat-tag">↯ bootkits / rootkits</span>
-      </div>
-      <div class="sec-item">
-        <div class="sec-name">SELinux / AppArmor</div>
-        <div class="sec-desc">Mandatory Access Control. Policy-based restrictions beyond standard file permissions.</div>
-        <span class="threat-tag">↯ privilege escalation</span>
-      </div>
-      <div class="sec-item">
-        <div class="sec-name">Driver Signing</div>
-        <div class="sec-desc">Only signed kernel modules may load. Blocks malicious kernel-level code from executing.</div>
-        <span class="threat-tag">↯ kernel exploits</span>
-      </div>
+      <div class="sec-item"><div class="sec-name">ASLR</div><div class="sec-desc">Randomises memory layout on each run so attackers can't hardcode exploit addresses.</div><span class="threat-tag">↯ buffer overflows</span></div>
+      <div class="sec-item"><div class="sec-name">NX / DEP Bit</div><div class="sec-desc">Marks stack/heap as non-executable. Code injected into data regions cannot run.</div><span class="threat-tag">↯ shellcode injection</span></div>
+      <div class="sec-item"><div class="sec-name">Stack Canaries</div><div class="sec-desc">Random value guards return address. Overflow detected before control is hijacked.</div><span class="threat-tag">↯ stack smashing</span></div>
+      <div class="sec-item"><div class="sec-name">UEFI Secure Boot</div><div class="sec-desc">Cryptographic chain of trust from firmware to kernel. Prevents pre-OS malware.</div><span class="threat-tag">↯ bootkits / rootkits</span></div>
+      <div class="sec-item"><div class="sec-name">SELinux / AppArmor</div><div class="sec-desc">Mandatory Access Control. Policy-based restrictions beyond standard file permissions.</div><span class="threat-tag">↯ privilege escalation</span></div>
+      <div class="sec-item"><div class="sec-name">Driver Signing</div><div class="sec-desc">Only signed kernel modules may load. Blocks malicious kernel-level code from executing.</div><span class="threat-tag">↯ kernel exploits</span></div>
     </div>
   </div>
-
 </div>
 </body>
 </html>
